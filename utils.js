@@ -1,5 +1,7 @@
 function isTypePath (path) {
-  return path.indexOf('xsd:complexType') >= 0 && path.indexOf('xsd:complexType') < path.indexOf('xsd:element')
+  const elementIndex = path.indexOf('xsd:element')
+  const typeIndex = path.indexOf('xsd:complexType')
+  return typeIndex >= 0 && (elementIndex < 0 || typeIndex < elementIndex)
 }
 
 function isTypeCall (type) {

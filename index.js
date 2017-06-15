@@ -11,12 +11,12 @@ function compile (node, res, path = [], elPath = []) {
   const currentElPath = concatPath(elPath, name)
 
   if (name) {
-    // console.log(' elPath',path, elPath, name)
-    const target = isTypePath(path) ? res.types : res.elements
-    const type = get(node, '$.type')
-    isTypeCall(type) && res.typeCalls.set(currentElPath, type)
+    console.log(' elPath',isTypePath(path), path, elPath, name)
+    const target = isTypePath(path) ? 'types' : 'elements'
+    const typeName = get(node, '$.type')
+    isTypeCall(typeName) && res.typeCalls.set(currentElPath, {typeName, target})
 
-    setMap(target, currentElPath, '')
+    setMap(res[target], currentElPath, '')
   }
 
   for (const prop in node) {
@@ -33,9 +33,11 @@ function compile (node, res, path = [], elPath = []) {
 }
 
 function linkTypes (xsdMap) {
-  for (let [path, typeName] of xsdMap.typeCalls) {
+  for (let [path, def] of xsdMap.typeCalls) {
+    const {typeName, target} = def
     const type = xsdMap.types.get(removeNs(typeName))
-    setMap(xsdMap.elements, path, type)
+    console.log(' path, typeName',path, typeName)
+    setMap(xsdMap[target], path, type)
   }
 }
 

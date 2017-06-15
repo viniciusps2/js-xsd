@@ -2,7 +2,7 @@
 
 const path = require('path')
 const parseXsd = require('..')
-const xmlFile = path.join(__dirname, 'example2.xml')
+const xmlFile = path.join(__dirname, 'example.xml')
 
 describe('parent-child', () => {
   it('should not throw when save without changes', function * () {
